@@ -45,7 +45,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "एक मीटिंग लिंक जोड़ें",
-        "confirmAddLink": "क्या आप इस इवेंट में एक Jitsi लिंक जोड़ना चाहते हैं?",
+        "confirmAddLink": "क्या आप इस इवेंट में एक ClubApp लिंक जोड़ना चाहते हैं?",
         "error": {
             "appConfiguration": "कैलेंडर एकीकरण ठीक से कॉन्फ़िगर नहीं किया गया है।",
             "generic": "एक त्रुटि हुई है। कृपया अपनी कैलेंडर सेटिंग जांचें या कैलेंडर को रीफ़्रेश करने का प्रयास करें।",
@@ -354,7 +354,7 @@
         "answer": "उत्तर",
         "audioCallTitle": "आने वाले कॉल",
         "decline": "खारिज",
-        "productLabel": "जित्सी मीट से",
+        "productLabel": "क्लबएप मीट से",
         "videoCallTitle": "आने वाले वीडियो कॉल"
     },
     "info": {
@@ -543,7 +543,7 @@
         "newDeviceAction": "उपयोग करें",
         "newDeviceAudioTitle": "नए ऑडियो डिवाइस का पता चला",
         "newDeviceCameraTitle": "नए कैमरे का पता चला",
-        "oldElectronClientDescription1": "आप जित्सी मीट क्लाइंट के एक पुराने संस्करण का उपयोग करते हुए दिखाई देते हैं, जिसमे सुरक्षा कमजोरियां ज्ञात हैं।",
+        "oldElectronClientDescription1": "आप क्लबएप मीट क्लाइंट के एक पुराने संस्करण का उपयोग करते हुए दिखाई देते हैं, जिसमे सुरक्षा कमजोरियां ज्ञात हैं।",
         "oldElectronClientDescription2": "नवीनतम बिल्ड",
         "oldElectronClientDescription3": " अब!",
         "passwordRemovedRemotely": "$t(lockRoomPasswordUppercase) किसी अन्य प्रतिभागी द्वारा हटा दिया गया",
@@ -956,9 +956,9 @@
         "go": "GO",
         "goSmall": "GO",
         "headerSubtitle": "सुरक्षित और उच्च गुणवत्ता बैठकें",
-        "headerTitle": "जित्सी मीट",
+        "headerTitle": "क्लबएप मीट",
         "info": "डायल-इन जानकारी",
-        "jitsiOnMobile": "मोबाइल पर Jitsi – हमारे एप्लिकेशन डाउनलोड करें और कहीं से भी एक बैठक शुरू करें",
+        "jitsiOnMobile": "मोबाइल पर ClubApp – हमारे एप्लिकेशन डाउनलोड करें और कहीं से भी एक बैठक शुरू करें",
         "join": "बनाये / जुड़े ",
         "moderatedMessage": "Or <a href=\"{{url}}\" rel=\"noopener noreferrer\" target=\"_blank\">book a meeting URL</a> in advance where you are the only moderator.",
         "privacy": "गोपनीयता",
