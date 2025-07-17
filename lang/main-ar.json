@@ -442,7 +442,7 @@
         "answer": "أجب",
         "audioCallTitle": "مكالمة صوتية واردة",
         "decline": "ارفض",
-        "productLabel": "مُلتقى جيتسي",
+        "productLabel": "مُلتقى كلوب آب",
         "videoCallTitle": "مكالمة مرئية واردة"
     },
     "info": {
@@ -686,7 +686,7 @@
         "noiseSuppressionFailedTitle": "فشل في بدء قمع الضوضاء",
         "noiseSuppressionNoTrackDescription": "يرجى إعادة صوت الميكروفون أولاً.",
         "noiseSuppressionStereoDescription": "قمع ضوضاء صوت الاستريو غير مدعوم حاليًا.",
-        "oldElectronClientDescription1": "يبدو أنَّك تستعمل إصدارًا قديمًا من جيتسي يحوي ثغرة أمنية. تأكد رجاءً من أنَّك حدَّثته إلى ",
+        "oldElectronClientDescription1": "يبدو أنَّك تستعمل إصدارًا قديمًا من كلوب آب يحوي ثغرة أمنية. تأكد رجاءً من أنَّك حدَّثته إلى ",
         "oldElectronClientDescription2": "أحدث إصدار",
         "oldElectronClientDescription3": " الآن!",
         "participantWantsToJoin": "يريد الانضمام إلى المُلتقى",
@@ -1324,15 +1324,15 @@
         "go": "ابدأ",
         "goSmall": "ابدأ",
         "headerSubtitle": "آمــن وبنـوعيـة فـائقـة الجـودة",
-        "headerTitle": "مُلتقى جيتسي",
+        "headerTitle": "مُلتقى كلوب آب",
         "info": "معلومات",
-        "jitsiOnMobile": "جيتسي على الهاتف المحمول - حمّل تطبيقاتنا وابدأ مُلتقىًا من أي مكان",
+        "jitsiOnMobile": "كلوب آب على الهاتف المحمول - حمّل تطبيقاتنا وابدأ مُلتقىًا من أي مكان",
         "join": "أنشئ / انضم",
         "logo": {
             "calendar": "شعار التقويم",
             "desktopPreviewThumbnail": "صورة مصغرة لمعاينة سطح المكتب",
             "googleLogo": "شعار كوكل",
-            "logoDeepLinking": "شعار جيتسي",
+            "logoDeepLinking": "شعار كلوب آب",
             "microsoftLogo": "شعار مايكروسوفت",
             "policyLogo": "شعار السياسة"
         },
