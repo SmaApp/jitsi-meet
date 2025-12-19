@@ -2,10 +2,12 @@
 import { getGravatarURL } from '@jitsi/js-utils/avatar';
 
 import { IReduxState, IStore } from '../../app/types';
+import { isVisitorChatParticipant } from '../../chat/functions';
 import { isStageFilmstripAvailable } from '../../filmstrip/functions';
 import { isAddPeopleEnabled, isDialOutEnabled } from '../../invite/functions';
 import { toggleShareDialog } from '../../share-room/actions';
 import { iAmVisitor } from '../../visitors/functions';
+import { IVisitorChatParticipant } from '../../visitors/types';
 import { IStateful } from '../app/types';
 import { GRAVATAR_BASE_URL } from '../avatar/constants';
 import { isCORSAvatarURL } from '../avatar/functions';
@@ -825,18 +827,41 @@ export const setShareDialogVisiblity = (addPeopleFeatureEnabled: boolean, dispat
 };
 
 /**
- * Checks if private chat is enabled for the given participant.
+ * Checks if private chat is enabled for the given participant or local participant.
  *
- * @param {IParticipant|undefined} participant - The participant to check.
+ * @param {IParticipant|IVisitorChatParticipant|undefined} participant - The participant to check.
  * @param {IReduxState} state - The Redux state.
+ * @param {boolean} [checkSelf=false] - Whether to check for local participant's ability to send messages.
  * @returns {boolean} - True if private chat is enabled, false otherwise.
  */
-export function isPrivateChatEnabled(participant: IParticipant | undefined, state: IReduxState) {
+export function isPrivateChatEnabled(
+        participant: IParticipant | IVisitorChatParticipant | undefined,
+        state: IReduxState,
+        checkSelf: boolean = false
+): boolean {
     const { remoteVideoMenu = {} } = state['features/base/config'];
     const { disablePrivateChat } = remoteVideoMenu;
 
-    if (participant?.local || state['features/visitors'].iAmVisitor || disablePrivateChat === 'all') {
+    // If checking self capability (if the local participant can send messages) ignore the local participant blocking rule
+    const isLocal = !isVisitorChatParticipant(participant) && participant?.local;
+
+    if (isLocal && !checkSelf) {
         return false;
+    }
+
+    // Check if private chat is disabled globally
+    if (disablePrivateChat === 'all') {
+        return false;
+    }
+
+    if (disablePrivateChat === 'disable-visitor-chat') {
+        // Block if the participant we're trying to message is a visitor
+        // OR if the local user is a visitor
+        if (isVisitorChatParticipant(participant) || iAmVisitor(state)) {
+            return false;
+        }
+
+        return true; // should allow private chat for other participants
     }
 
     if (disablePrivateChat === 'allow-moderator-chat') {
@@ -844,4 +869,16 @@ export function isPrivateChatEnabled(participant: IParticipant | undefined, stat
     }
 
     return !disablePrivateChat;
+}
+
+/**
+ * Checks if private chat is enabled for the local participant (can they send private messages).
+ *
+ * @param {IReduxState} state - The Redux state.
+ * @returns {boolean} - True if the local participant can send private messages, false otherwise.
+ */
+export function isPrivateChatEnabledSelf(state: IReduxState): boolean {
+    const localParticipant = getLocalParticipant(state);
+
+    return isPrivateChatEnabled(localParticipant, state, true);
 }

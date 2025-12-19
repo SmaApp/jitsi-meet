@@ -213,6 +213,9 @@ end
 local function disconnect_vnode_received(room, vnode)
     module:context(muc_domain_base):fire_event('jitsi-disconnect-vnode', { room = room; vnode = vnode; });
 
+    if not room._connected_vnodes then
+        return;
+    end
     room._connected_vnodes:set(vnode..'.meet.jitsi', nil);
 
     if room._connected_vnodes:count() == 0 then
@@ -517,6 +520,7 @@ process_host_module(muc_domain_prefix..'.'..muc_domain_base, function(host_modul
             or is_sip_jibri_join(stanza)
             or table_find(room._data.moderators, session.jitsi_meet_context_user and session.jitsi_meet_context_user.id)
             or (room._data.moderator_id and room._data.moderator_id == (session.jitsi_meet_context_user and session.jitsi_meet_context_user.id))
+            or (room._data.moderator_id and room._data.moderator_id == session.jitsi_meet_context_group)
             or table_find(room._data.participants, session.jitsi_meet_context_user and session.jitsi_meet_context_user.id) then
             if DEBUG then
                 module:log('debug', 'Auto-allowing visitor %s in room %s', stanza.attr.from, room.jid);
@@ -561,6 +565,10 @@ process_host_module(muc_domain_prefix..'.'..muc_domain_base, function(host_modul
         elseif room._data.participants then
                 -- This is non jaas room which has a list of participants allowed to participate in the main room
                 -- but this occupant is not one of them and the room is either not live or has no participants joined
+                if room:get_members_only() then
+                    -- if there is a lobby, let's pass it through it will wait for the main participant
+                    return;
+                end
                 session.log('warn',
                     'Deny user join in the main not live meeting, not in the list of main participants');
                 session.send(st.error_reply(
@@ -574,7 +582,7 @@ process_host_module(muc_domain_prefix..'.'..muc_domain_base, function(host_modul
     host_module:hook('muc-room-destroyed', function (event)
         visitors_promotion_map[event.room.jid] = nil;
         visitors_promotion_requests[event.room.jid] = nil;
-    end);
+    end, 1); -- prosody handles it at 0
 
     host_module:hook('muc-occupant-joined', function (event)
         local room, occupant = event.room, event.occupant;
@@ -696,6 +704,13 @@ process_host_module(muc_domain_prefix..'.'..muc_domain_base, function(host_modul
                 return;
             end
 
+            if always_visitors_enabled then
+                if not room.jitsiMetadata then
+                    room.jitsiMetadata = {};
+                end
+                room.jitsiMetadata.visitorsEnabled = true;
+            end
+
             go_live(room);
         end);
     end
@@ -739,7 +754,7 @@ function handle_occupant_leaving_breakout(event)
     local main_room, occupant, stanza = event.main_room, event.occupant, event.stanza;
     local presence_status = stanza:get_child_text('status');
 
-    if presence_status ~= 'switch_room' or not visitors_promotion_map[main_room.jid] then
+    if presence_status ~= 'switch_room' or not main_room or not visitors_promotion_map[main_room.jid] then
         return;
     end
 

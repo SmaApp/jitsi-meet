@@ -24,6 +24,7 @@ export type ToolbarButton = 'camera' |
     'embedmeeting' |
     'etherpad' |
     'feedback' |
+    'filesharing' |
     'filmstrip' |
     'fullscreen' |
     'hangup' |
@@ -38,6 +39,7 @@ export type ToolbarButton = 'camera' |
     'noisesuppression' |
     'overflowmenu' |
     'participants-pane' |
+    'polls' |
     'profile' |
     'raisehand' |
     'reactions' |
@@ -104,4 +106,11 @@ export interface IGetVisibleButtonsParams {
     jwtDisabledButtons: string[];
     mainToolbarButtonsThresholds: IMainToolbarButtonThresholds;
     toolbarButtons: string[];
+}
+
+export interface IGetVisibleButtonsForReducedUIParams {
+    allButtons: { [key: string]: IToolboxButton; };
+    buttonsWithNotifyClick: Map<string, NOTIFY_CLICK_MODE>;
+    jwtDisabledButtons: string[];
+    reducedUImainToolbarButtons?: string[];
 }

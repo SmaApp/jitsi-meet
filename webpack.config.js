@@ -160,7 +160,14 @@ function getConfig(options = {}) {
                     'css-loader'
                 ]
             }, {
+                // Import SVG as raw text when using ?raw query parameter.
                 test: /\.svg$/,
+                resourceQuery: /raw/,
+                type: 'asset/source'
+            }, {
+                // Import SVG as React component (default).
+                test: /\.svg$/,
+                resourceQuery: { not: [ /raw/ ] },
                 use: [ {
                     loader: '@svgr/webpack',
                     options: {
@@ -204,7 +211,8 @@ function getConfig(options = {}) {
         ].filter(Boolean),
         resolve: {
             alias: {
-                'focus-visible': 'focus-visible/dist/focus-visible.min.js'
+                'focus-visible': 'focus-visible/dist/focus-visible.min.js',
+                '@giphy/js-analytics': resolve(__dirname, 'giphy-analytics-stub.js')
             },
             aliasFields: [
                 'browser'
@@ -249,7 +257,7 @@ function getDevServerConfig() {
                 warnings: false
             }
         },
-        host: '::',
+        host: 'localhost',
         hot: true,
         proxy: [
             {
